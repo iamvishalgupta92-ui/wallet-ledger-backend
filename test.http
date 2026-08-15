@@ -1,0 +1,128 @@
+POST http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+  "name": "Vishal",
+  "email": "vishal@test.com"
+}
+
+###
+
+POST http://localhost:8080/api/wallets/1
+
+###
+
+POST http://localhost:8080/api/transactions/deposit/1?amount=1000
+
+###
+
+POST http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+  "name": "Rahul",
+  "email": "rahul@test.com"
+}
+
+###
+
+POST http://localhost:8080/api/wallets/2
+
+###
+
+POST http://localhost:8080/api/transactions/transfer?fromWalletId=1&toWalletId=2&amount=200
+
+###
+
+POST http://localhost:8080/api/transactions/transfer?fromWalletId=1&toWalletId=2&amount=100
+Idempotency-Key: transfer-001
+
+###
+
+GET http://localhost:8080/api/transactions/wallet/1
+
+###
+
+POST http://localhost:8080/api/transactions/transfer?fromWalletId=1&toWalletId=2&amount=999999
+Idempotency-Key: test-error-001
+
+###
+
+POST http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+  "name": "",
+  "email": "abc"
+}
+
+###
+
+POST http://localhost:8080/api/transactions/transfer?fromWalletId=1&toWalletId=2&amount=0
+Idempotency-Key: validation-test-001
+
+###
+
+POST http://localhost:8080/api/auth/login?email=vishal@test.com
+
+###
+
+GET http://localhost:8080/api/transactions/wallet/1
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0ZXN0dXNlckB0ZXN0LmNvbSIsImlhdCI6MTc4NjcxNTA3MCwiZXhwIjoxNzg2ODAxNDcwfQ.fBfEroJwmJmjve9rSEq0e7vFo5uHDaQfFKwNSApbalERBQPDfREf4acV8RxYYaHv
+
+###
+
+POST http://localhost:8080/api/auth/login?email=fake@test.com
+
+
+###
+
+POST http://localhost:8080/api/auth/login?email=vishal@test.com&password=123456
+
+
+###
+
+POST http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+  "name": "Test User",
+  "email": "testuser@test.com",
+  "password": "123456"
+}
+
+###
+
+POST http://localhost:8080/api/auth/login?email=testuser@test.com&password=123456
+
+
+###
+
+POST http://localhost:8080/api/transactions/transfer?fromWalletId=1&toWalletId=2&amount=10
+Idempotency-Key: lock-test-001
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0ZXN0dXNlckB0ZXN0LmNvbSIsImlhdCI6MTc4NjcxNTA3MCwiZXhwIjoxNzg2ODAxNDcwfQ.fBfEroJwmJmjve9rSEq0e7vFo5uHDaQfFKwNSApbalERBQPDfREf4acV8RxYYaHv
+
+
+###
+
+POST http://localhost:8080/api/auth/login?email=vishal%40test.com&password=123456
+
+###
+
+POST http://localhost:8080/api/transactions/transfer?fromWalletId=1&toWalletId=2&amount=10
+Idempotency-Key: lock-test-002
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ2aXNoYWxAdGVzdC5jb20iLCJpYXQiOjE3ODY3MTYwNjQsImV4cCI6MTc4NjgwMjQ2NH0.lptx8LWa9buG6jf5hdTzUFQJZl7Zf1HeUXoBnAqeIRR55_pLemrFHSiAAPU0bLvQ
+
+###
+POST http://localhost:8080/api/transactions/transfer?fromWalletId=1&toWalletId=2&amount=10
+Idempotency-Key: kafka-json-test-002
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ2aXNoYWxAdGVzdC5jb20iLCJpYXQiOjE3ODY3MTYwNjQsImV4cCI6MTc4NjgwMjQ2NH0.lptx8LWa9buG6jf5hdTzUFQJZl7Zf1HeUXoBnAqeIRR55_pLemrFHSiAAPU0bLvQ
+
+###
+GET http://localhost:8080/api/transactions/wallet/1
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0ZXN0dXNlckB0ZXN0LmNvbSIsImlhdCI6MTc4NjcxNTA3MCwiZXhwIjoxNzg2ODAxNDcwfQ.fBfEroJwmJmjve9rSEq0e7vFo5uHDaQfFKwNSApbalERBQPDfREf4acV8RxYYaHv
+
+###
+
+GET http://localhost:8080/api/transactions/wallet/1
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ2aXNoYWxAdGVzdC5jb20iLCJpYXQiOjE3ODY3MTYwNjQsImV4cCI6MTc4NjgwMjQ2NH0.lptx8LWa9buG6jf5hdTzUFQJZl7Zf1HeUXoBnAqeIRR55_pLemrFHSiAAPU0bLvQ
